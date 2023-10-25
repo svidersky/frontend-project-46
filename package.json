@@ -1,39 +1,40 @@
 {
-    "name": "ls-project-2",
+    "name": "@hexlet/code",
     "version": "1.0.0",
     "description": "Hexlet project #2",
     "bin": {
-      "nodejs-package": "bin/nodejs-package.js"
+        "nodejs-package": "bin/nodejs-package.js"
     },
     "simple-git-hooks": {
-      "pre-push": "make lint"
+        "pre-push": "make lint"
     },
     "engines": {
-      "node": ">=14"
+        "node": ">=14"
     },
     "scripts": {
-      "test": "npx jest"
+        "test": "npx jest"
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/hexlet-boilerplates/nodejs-package.git"
+        "type": "git",
+        "url": "git+https://github.com/hexlet-boilerplates/nodejs-package.git"
     },
     "author": "Leonid Sviderskii",
     "license": "ISC",
     "type": "module",
     "dependencies": {
-      "debug": "^4.3.4",
-      "lodash": "^4.17.21"
+        "commander": "^11.1.0",
+        "debug": "^4.3.4",
+        "lodash": "^4.17.21"
     },
     "devDependencies": {
-      "@jest/globals": "^29.6.0",
-      "eslint": "^8.40.0",
-      "eslint-config-airbnb-base": "^15.0.0",
-      "eslint-plugin-import": "^2.27.5",
-      "eslint-plugin-jest": "^27.2.2",
-      "jest": "^29.6.0",
-      "jest-cli": "^29.6.0",
-      "npm-check-updates": "^16.10.11",
-      "simple-git-hooks": "^2.8.1"
+        "@jest/globals": "^29.6.0",
+        "eslint": "^8.40.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-jest": "^27.2.2",
+        "jest": "^29.6.0",
+        "jest-cli": "^29.6.0",
+        "npm-check-updates": "^16.10.11",
+        "simple-git-hooks": "^2.8.1"
     }
 }
