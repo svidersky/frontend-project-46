@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Hexlet project #2",
     "bin": {
-        "nodejs-package": "bin/nodejs-package.js"
+        "gendiff": "gendiff.js"
     },
     "simple-git-hooks": {
         "pre-push": "make lint"
