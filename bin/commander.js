@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
+import app from '../src/app.js';
 import { Command } from 'commander';
+
 const program = new Command();
 
-const app = () => {
+const commander = () => {
   program
     .description('Compares two configuration files and shows a difference.')
     .version('1.0.0')
@@ -11,14 +13,14 @@ const app = () => {
     .argument('<filepath2>')
     .option('-f, --format [format]', 'output format')
     .action((filepath1, filepath2) => {
-      console.log('filepath1:', filepath1);
-      console.log('filepath2:', filepath2);
+        console.log('--- gendiff CLI ---');
+        app(filepath1, filepath2);
     });
 
   program.parse(process.argv);
 
   const options = program.opts();
-  console.log(options.format);
+  console.log('options:', options.format);
 };
 
-export default app();
+export default commander();

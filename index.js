@@ -1,5 +1,5 @@
 // @ts-check
 
-import gendiff from './gendiff.js';
+import app from './src/app.js';
 
-export default gendiff;
+export default app;
