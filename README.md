@@ -12,3 +12,6 @@ make install
 ```bash
 make test
 ```
+
+## Demo
+[![asciicast](https://asciinema.org/a/SmlRhcTl7P2wTy9t1jLkzcRQj.svg)](https://asciinema.org/a/SmlRhcTl7P2wTy9t1jLkzcRQj)

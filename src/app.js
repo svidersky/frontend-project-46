@@ -2,7 +2,7 @@
 
 import { readFile } from './utils/readfile.js';
 import { parseJson } from './utils/parseJson.js';
-import { getFileExtention } from './utils/getFileExtention.js';
+import Path from 'path';
 import genDiff from './utils/gendiff.js';
 
 const app = (filepath1, filepath2) => {
@@ -12,14 +12,14 @@ const app = (filepath1, filepath2) => {
   const data1 = readFile(filepath1);
   const data2 = readFile(filepath2);
 
-  const fileFormat = getFileExtention(filepath1).replace('.', '');
+  const fileFormat = Path.extname(filepath1).replace('.', '');
   console.log(`file format: ${fileFormat} \n`);
 
   switch (fileFormat) {
     case 'json':
       const json1 = parseJson(data1);
       const json2 = parseJson(data2);
-      console.log('result:', genDiff(json1, json2));
+      console.log(genDiff(json1, json2));
       break;
   }
 };
