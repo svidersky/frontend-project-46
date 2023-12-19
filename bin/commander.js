@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import app from '../src/app.js';
 import { Command } from 'commander';
+import app from '../src/app.js';
 
 const program = new Command();
 
@@ -13,8 +13,8 @@ const commander = () => {
     .argument('<filepath2>')
     .option('-f, --format [format]', 'output format')
     .action((filepath1, filepath2) => {
-        console.log('--- gendiff CLI ---');
-        app(filepath1, filepath2);
+      console.log('--- gendiff CLI ---');
+      app(filepath1, filepath2);
     });
 
   program.parse(process.argv);

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
- 
-export const parseJson = (content) => JSON.parse(content);
+
+export default (content) => JSON.parse(content);
