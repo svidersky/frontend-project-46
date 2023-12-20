@@ -1,28 +1,35 @@
 #!/usr/bin/env node
 
-import Path from 'path';
-import readFile from './utils/readfile.js';
-import parseJson from './utils/parseJson.js';
+import { extname } from 'path';
 import genDiff from './utils/gendiff.js';
+import readFile from './utils/readfile.js';
 
 const app = (filepath1, filepath2) => {
-  console.log('--- gendiff library ---\n');
+  const supportedFormats = ['json'];
 
-  const data1 = readFile(filepath1);
-  const data2 = readFile(filepath2);
+  const fileFormat = extname(filepath1).replace('.', '');
 
-  const fileFormat = Path.extname(filepath1).replace('.', '');
-  console.log(`file format: ${fileFormat} \n`);
+  if (!supportedFormats.includes(fileFormat)) {
+    console.log('Unknown file format');
+    return null;
+  }
+
+  const data1 = readFile('../', '__fixtures__', filepath1);
+  const data2 = readFile('../', '__fixtures__', filepath2);
 
   switch (fileFormat) {
     case 'json': {
-      const json1 = parseJson(data1);
-      const json2 = parseJson(data2);
-      console.log(genDiff(json1, json2));
-      break;
+      const json1 = JSON.parse(data1);
+      const json2 = JSON.parse(data2);
+
+      const result = genDiff(json1, json2);
+
+      console.log(result);
+      return result;
     }
     default: {
-      console.log('Unknown file format');
+      console.log('Impossible to compare files');
+      return null;
     }
   }
 };

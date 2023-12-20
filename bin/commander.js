@@ -8,7 +8,7 @@ const program = new Command();
 const commander = () => {
   program
     .description('Compares two configuration files and shows a difference.')
-    .version('1.0.0')
+    .version('1.5.1')
     .argument('<filepath1>')
     .argument('<filepath2>')
     .option('-f, --format [format]', 'output format')
