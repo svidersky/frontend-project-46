@@ -1,6 +1,6 @@
 {
     "name": "@hexlet/code",
-    "version": "1.5.2",
+    "version": "1.5.3",
     "description": "Hexlet project #2",
     "bin": {
         "gendiff": "./bin/commander.js"

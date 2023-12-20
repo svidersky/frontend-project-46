@@ -14,8 +14,8 @@ const app = (filepath1, filepath2) => {
     return null;
   }
 
-  const data1 = readFile('../', '__fixtures__', filepath1);
-  const data2 = readFile('../', '__fixtures__', filepath2);
+  const data1 = readFile(filepath1);
+  const data2 = readFile(filepath2);
 
   switch (fileFormat) {
     case 'json': {
