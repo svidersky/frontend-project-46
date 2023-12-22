@@ -8,26 +8,52 @@ const genDiff = (data1, data2) => {
 
   const data = {};
   for (const key of keys) {
-    if (!Object.hasOwn(data1, key)) {
-      data[key] = `+ ${key}: ${data2[key]}`;
-    } else if (!Object.hasOwn(data2, key)) {
-      data[key] = `- ${key}: ${data1[key]}`;
+    if (!_.has(data1, key)) {
+      data[key] = { data: data2[key], status: 'added' };
+    } else if (!_.has(data2, key)) {
+      data[key] = { data: data1[key], status: 'deleted' };
     } else if (data1[key] !== data2[key]) {
-      data[key] = `- ${key}: ${data1[key]}\n  + ${key}: ${data2[key]}`;
+      data[key] = { data: { oldData: data1[key], newData: data2[key] }, status: 'changed' };
     } else {
-      data[key] = `  ${key}: ${data1[key]}`;
+      data[key] = { data: data1[key], status: 'unchanged' };
     }
   }
 
   const sortedData = _.fromPairs(_.sortBy(_.toPairs(data), ([key]) => key));
 
-  let result = '';
+  const format = (currentValue, depth) => {
+    if (!_.isObject(currentValue)) {
+      return `${currentValue}`;
+    }
 
-  for (const key in sortedData) {
-    if (_.has(sortedData, key)) result += `  ${data[key]}\n`;
-  }
+    const replacer = ' ';
+    const spacesCount = 2;
+    const indentSize = depth * spacesCount;
+    const currentIndent = replacer.repeat(indentSize);
+    const bracketIndent = replacer.repeat(indentSize - spacesCount);
+    const lines = Object
+      .entries(currentValue)
+      .map(([key, value]) => {
+        if (value.status === 'added') {
+          return `${currentIndent}+ ${key}: ${value.data}`;
+        } if (value.status === 'deleted') {
+          return `${currentIndent}- ${key}: ${value.data}`;
+        } if (value.status === 'changed') {
+          return `${currentIndent}- ${key}: ${value.data.oldData}\n${currentIndent}+ ${key}: ${value.data.newData}`;
+        }
+        return `${currentIndent.repeat(spacesCount)}${key}: ${value.data}`;
+      });
 
-  return `{\n${result}}`;
+    return [
+      '{',
+      ...lines,
+      `${bracketIndent}}`,
+    ].join('\n');
+  };
+
+  const result = format(sortedData, 1);
+
+  return result;
 };
 
 export default genDiff;
