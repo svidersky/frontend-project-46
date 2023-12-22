@@ -18,6 +18,22 @@ it('compares JSON', () => {
   expect(genDiff(filepath1, filepath2)).toEqual(expected);
 });
 
+it('compares YAML', () => {
+  const filepath1 = getFixturePath('file1.yaml');
+  const filepath2 = getFixturePath('file2.yaml');
+  const expected = readFile('expectedResult.txt');
+
+  expect(genDiff(filepath1, filepath2)).toEqual(expected);
+});
+
+it('compares YML', () => {
+  const filepath1 = getFixturePath('file1.yml');
+  const filepath2 = getFixturePath('file2.yml');
+  const expected = readFile('expectedResult.txt');
+
+  expect(genDiff(filepath1, filepath2)).toEqual(expected);
+});
+
 it('provides an non-supported format', () => {
   const filepath1 = 'file1.txt';
   const filepath2 = 'file2.txt';
