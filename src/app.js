@@ -3,7 +3,8 @@
 import { extname } from 'path';
 import genDiff from './utils/gendiff.js';
 import readFile from './utils/readfile.js';
-import yamlParser from './utils/yamlParser.js';
+import parseYaml from './utils/yamlParser.js';
+import parseJson from './utils/jsonParser.js';
 
 // eslint-disable-next-line consistent-return
 const app = (filepath1, filepath2) => {
@@ -22,26 +23,18 @@ const app = (filepath1, filepath2) => {
   // eslint-disable-next-line default-case
   switch (fileFormat) {
     case 'json': {
-      const json1 = JSON.parse(data1);
-      const json2 = JSON.parse(data2);
+      const json1 = parseJson(data1);
+      const json2 = parseJson(data2);
 
       const result = genDiff(json1, json2);
 
       console.log(result);
       return result;
     }
-    case 'yaml': {
-      const yaml1 = yamlParser(data1);
-      const yaml2 = yamlParser(data2);
-
-      const result = genDiff(yaml1, yaml2);
-
-      console.log(result);
-      return result;
-    }
+    case 'yaml':
     case 'yml': {
-      const yml1 = yamlParser(data1);
-      const yml2 = yamlParser(data2);
+      const yml1 = parseYaml(data1);
+      const yml2 = parseYaml(data2);
 
       const result = genDiff(yml1, yml2);
 

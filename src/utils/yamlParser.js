@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import yaml from 'js-yaml';
 
-const yamlParser = (data) => {
+const parseYaml = (data) => {
   const parsedData = yaml.load(data);
   return parsedData;
 };
 
-export default yamlParser;
+export default parseYaml;
