@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import _ from 'lodash';
+import format from './formatters/format.js';
 
 const genDiff = (data1, data2) => {
   const keys1 = Object.keys(data1);
@@ -21,39 +22,9 @@ const genDiff = (data1, data2) => {
 
   const sortedData = _.fromPairs(_.sortBy(_.toPairs(data), ([key]) => key));
 
-  const format = (currentValue, depth) => {
-    if (!_.isObject(currentValue)) {
-      return `${currentValue}`;
-    }
+  const formattedData = format(sortedData);
 
-    const replacer = ' ';
-    const spacesCount = 2;
-    const indentSize = depth * spacesCount;
-    const currentIndent = replacer.repeat(indentSize);
-    const bracketIndent = replacer.repeat(indentSize - spacesCount);
-    const lines = Object
-      .entries(currentValue)
-      .map(([key, value]) => {
-        if (value.status === 'added') {
-          return `${currentIndent}+ ${key}: ${value.data}`;
-        } if (value.status === 'deleted') {
-          return `${currentIndent}- ${key}: ${value.data}`;
-        } if (value.status === 'changed') {
-          return `${currentIndent}- ${key}: ${value.data.oldData}\n${currentIndent}+ ${key}: ${value.data.newData}`;
-        }
-        return `${currentIndent.repeat(spacesCount)}${key}: ${value.data}`;
-      });
-
-    return [
-      '{',
-      ...lines,
-      `${bracketIndent}}`,
-    ].join('\n');
-  };
-
-  const result = format(sortedData, 1);
-
-  return result;
+  return formattedData;
 };
 
 export default genDiff;
