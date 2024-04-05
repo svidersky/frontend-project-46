@@ -1,6 +1,7 @@
-/* eslint-disable no-restricted-syntax */
 import _ from 'lodash';
 import format from './formatters/format.js';
+
+/* eslint-disable no-restricted-syntax */
 
 const genDiff = (data1, data2) => {
   const keys1 = Object.keys(data1);
@@ -13,6 +14,8 @@ const genDiff = (data1, data2) => {
       data[key] = { data: data2[key], status: 'added' };
     } else if (!_.has(data2, key)) {
       data[key] = { data: data1[key], status: 'deleted' };
+    } else if (_.isObject(data1[key]) && _.isObject(data2[key])) {
+      data[key] = { data: genDiff(data1[key], data2[key]), status: 'nested' };
     } else if (data1[key] !== data2[key]) {
       data[key] = { data: { oldData: data1[key], newData: data2[key] }, status: 'changed' };
     } else {

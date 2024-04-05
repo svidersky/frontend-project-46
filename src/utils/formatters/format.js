@@ -14,6 +14,9 @@ const format = (data) => {
     const lines = Object
       .entries(currentValue)
       .map(([key, value]) => {
+        if (value.status === 'nested') {
+          return `${currentIndent}${key}: ${inner(value.data, currentDepth + 1)}`;
+        }
         if (value.status === 'added') {
           return `${currentIndent}+ ${key}: ${value.data}`;
         } if (value.status === 'deleted') {
