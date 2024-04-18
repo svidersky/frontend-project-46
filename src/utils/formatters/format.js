@@ -9,7 +9,8 @@ const format = (data) => {
     const replacer = ' ';
     const spacesCount = 2;
     const indentSize = currentDepth * spacesCount;
-    const currentIndent = replacer.repeat(indentSize);
+    const currentIndent = replacer.repeat(indentSize * 2);
+    const regularIndent = replacer.repeat(indentSize * 2 + 2);
     const bracketIndent = replacer.repeat(indentSize - spacesCount);
     const lines = Object
       .entries(currentValue)
@@ -18,11 +19,13 @@ const format = (data) => {
           return `${currentIndent}${key}: ${inner(value.data, currentDepth + 1)}`;
         }
         if (value.status === 'added') {
-          return `${currentIndent}+ ${key}: ${value.data}`;
+          return `${regularIndent}+ ${key}: ${value.data}`;
         } if (value.status === 'deleted') {
-          return `${currentIndent}- ${key}: ${value.data}`;
+          return `${regularIndent}- ${key}: ${value.data}`;
         } if (value.status === 'changed') {
-          return `${currentIndent}- ${key}: ${value.data.oldData}\n${currentIndent}+ ${key}: ${value.data.newData}`;
+          const oldData = value.data ? value.data.oldData : null;
+          const newData = value.data ? value.data.newData : null;
+          return `${regularIndent}- ${key}: ${oldData}\n${regularIndent}+ ${key}: ${newData}`;
         }
         return `${currentIndent.repeat(spacesCount)}${key}: ${value.data}`;
       });
