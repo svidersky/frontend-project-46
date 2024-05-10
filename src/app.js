@@ -13,7 +13,9 @@ const app = (filepath1, filepath2) => {
   const fileFormat = extname(filepath1).replace('.', '');
 
   if (!supportedFormats.includes(fileFormat)) {
-    console.log(`Unknown file format: ${fileFormat}, add support for it if needed`);
+    console.log(
+      `Unknown file format: ${fileFormat}, add support for it if needed`,
+    );
     return null;
   }
 

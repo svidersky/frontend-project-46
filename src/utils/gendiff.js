@@ -17,7 +17,10 @@ const genDiff = (data1, data2) => {
     } else if (_.isObject(data1[key]) && _.isObject(data2[key])) {
       data[key] = { data: genDiff(data1[key], data2[key]), status: 'nested' };
     } else if (data1[key] !== data2[key]) {
-      data[key] = { data: { oldData: data1[key], newData: data2[key] }, status: 'changed' };
+      data[key] = {
+        data: { oldData: data1[key], newData: data2[key] },
+        status: 'changed',
+      };
     } else {
       data[key] = { data: data1[key], status: 'unchanged' };
     }
