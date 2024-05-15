@@ -2,13 +2,13 @@
 
 import { extname } from 'path';
 import genDiff from './utils/gendiff.js';
-import formatStylish from './utils/formatters/stylish.js';
+import format from './utils/formatters/index.js';
 import readFile from './utils/readfile.js';
 import parseYaml from './utils/yamlParser.js';
 import parseJson from './utils/jsonParser.js';
 
 // eslint-disable-next-line consistent-return
-const app = (filepath1, filepath2) => {
+const app = (filepath1, filepath2, formatType) => {
   const supportedFormats = ['json', 'yaml', 'yml'];
 
   const fileFormat = extname(filepath1).replace('.', '');
@@ -30,15 +30,15 @@ const app = (filepath1, filepath2) => {
       const json2 = parseJson(data2);
 
       const difference = genDiff(json1, json2);
-      return formatStylish(difference);
+      return format(difference, formatType);
     }
     case 'yaml':
     case 'yml': {
       const yml1 = parseYaml(data1);
       const yml2 = parseYaml(data2);
 
-      const result = genDiff(yml1, yml2);
-      return formatStylish(result);
+      const difference = genDiff(yml1, yml2);
+      return format(difference, formatType);
     }
   }
 };
