@@ -1,36 +1,52 @@
+#!/usr/bin/env node
 import _ from 'lodash';
-import format from './formatters/format.js';
 
-/* eslint-disable no-restricted-syntax */
+const buildTree = (data1, data2) => {
+  const keys1 = _.keys(data1);
+  const keys2 = _.keys(data2);
+  const sortedKeys = _.sortBy(_.union(keys1, keys2));
 
-const genDiff = (data1, data2) => {
-  const keys1 = Object.keys(data1);
-  const keys2 = Object.keys(data2);
-  const keys = _.union(keys1, keys2);
-
-  const data = {};
-  for (const key of keys) {
+  const children = sortedKeys.map((key) => {
     if (!_.has(data1, key)) {
-      data[key] = { data: data2[key], status: 'added' };
-    } else if (!_.has(data2, key)) {
-      data[key] = { data: data1[key], status: 'deleted' };
-    } else if (_.isObject(data1[key]) && _.isObject(data2[key])) {
-      data[key] = { data: genDiff(data1[key], data2[key]), status: 'nested' };
-    } else if (data1[key] !== data2[key]) {
-      data[key] = {
-        data: { oldData: data1[key], newData: data2[key] },
-        status: 'changed',
+      return {
+        status: 'added',
+        key,
+        value: data2[key],
       };
-    } else {
-      data[key] = { data: data1[key], status: 'unchanged' };
     }
-  }
-
-  const sortedData = _.fromPairs(_.sortBy(_.toPairs(data), ([key]) => key));
-
-  const formattedData = format(sortedData);
-
-  return formattedData;
+    if (!_.has(data2, key)) {
+      return {
+        status: 'removed',
+        key,
+        value: data1[key],
+      };
+    } if (_.isObject(data1[key]) && _.isObject(data2[key])) {
+      return {
+        status: 'nested',
+        key,
+        children: buildTree(data1[key], data2[key]),
+      };
+    }
+    if (_.isEqual(data1[key], data2[key])) {
+      return {
+        status: 'unchanged',
+        key,
+        value: data2[key],
+      };
+    }
+    return {
+      status: 'changed',
+      key,
+      value: data1[key],
+      value2: data2[key],
+    };
+  });
+  return children;
 };
+
+const genDiff = (data1, data2) => ({
+  status: 'root',
+  children: buildTree(data1, data2),
+});
 
 export default genDiff;
