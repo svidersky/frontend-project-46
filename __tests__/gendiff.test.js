@@ -13,15 +13,17 @@ const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8').t
 it('compares JSON', () => {
   const filepath1 = getFixturePath('file1.json');
   const filepath2 = getFixturePath('file2.json');
-  const expected = readFile('expectedResult.txt');
+  const format = 'stylish';
 
-  expect(genDiff(filepath1, filepath2)).toEqual(expected);
+  const expected = readFile('expectedResultStylish.txt');
+
+  expect(genDiff(filepath1, filepath2, format)).toEqual(expected);
 });
 
 it('compares YAML', () => {
   const filepath1 = getFixturePath('file1.yaml');
   const filepath2 = getFixturePath('file2.yaml');
-  const expected = readFile('expectedResult.txt');
+  const expected = readFile('expectedResultStylish.txt');
 
   expect(genDiff(filepath1, filepath2)).toEqual(expected);
 });
@@ -29,9 +31,11 @@ it('compares YAML', () => {
 it('compares YML', () => {
   const filepath1 = getFixturePath('file1.yml');
   const filepath2 = getFixturePath('file2.yml');
-  const expected = readFile('expectedResult.txt');
+  const format = 'stylish';
 
-  expect(genDiff(filepath1, filepath2)).toEqual(expected);
+  const expected = readFile('expectedResultStylish.txt');
+
+  expect(genDiff(filepath1, filepath2, format)).toEqual(expected);
 });
 
 it('provides an non-supported format', () => {
@@ -39,4 +43,24 @@ it('provides an non-supported format', () => {
   const filepath2 = 'file2.txt';
 
   expect(genDiff(filepath1, filepath2)).toBeNull();
+});
+
+it('returns plain result for json', () => {
+  const filepath1 = getFixturePath('file1.json');
+  const filepath2 = getFixturePath('file2.json');
+  const format = 'plain';
+
+  const expected = readFile('expectedResultPlain.txt');
+
+  expect(genDiff(filepath1, filepath2, format)).toEqual(expected);
+});
+
+it('returns plain result for yaml', () => {
+  const filepath1 = getFixturePath('file1.yaml');
+  const filepath2 = getFixturePath('file2.yaml');
+  const format = 'plain';
+
+  const expected = readFile('expectedResultPlain.txt');
+
+  expect(genDiff(filepath1, filepath2, format)).toEqual(expected);
 });
